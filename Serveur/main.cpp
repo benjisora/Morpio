@@ -1,84 +1,14 @@
 #include <iostream>
 #include <SFML/Network.hpp>
-#include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
 #include <string>
 #include <thread>
 
-
 using namespace std;
 
-void addingPseudo(std::vector<string>& pseudos, sf::TcpSocket* client, int idClient)
-{
-
-    boolean pseudoAdded = false;
-
-    string pseudo = "";
-    int code = 0;
-    sf::Packet packet;
-    sf::Packet data;
-
-    client->setBlocking(true);
-
-    while(!pseudoAdded)
-    {
-
-        if (client->receive(packet) != sf::Socket::Done)
-        {
-            cout << "echec de reception du pseudo" <<endl;
-        }
-        packet >> code >> pseudo;
-        packet.clear();
-
-        if(idClient==0 && code == 0) //si il y a aucun pseudo
-        {
-            cout << "premier" <<endl;
-            pseudoAdded = true;
-            code = 101;
-        }
-        else if(idClient != 0 && code == 0) //si il y a déjà des pseudos
-        {
-            boolean pseudoGood = true;
-            for (unsigned int i=0; i<pseudos.size(); i++)
-            {
-                cout << "pas premier" <<endl;
-                if(pseudos[i] == pseudo)
-                {
-                    cout << "pseudo egal!!" <<endl;
-                    pseudoGood = false;
-                    code = 1;
-                    data << code;
-                    if(client->send(data) != sf::Socket::Done)
-                    {
-                        cout << "echec d'envoi du code" <<endl;
-                    }
-                    data.clear();
-                    break;
-                }
-            }
-            if(pseudoGood)
-            {
-                cout << "valide !!!" <<endl;
-                pseudoAdded = true;
-                code = 0;
-            }
-        }
-    }
-
-    pseudos.push_back(pseudo);
-    cout << "Pseudo: " << pseudos[idClient] << endl;
-
-    data << code;
-    if(client->send(data) != sf::Socket::Done)
-    {
-        cout << "echec d'envoi du code" <<endl;
-    }
-    data.clear();
-}
-
-
+boolean addingPseudo(std::vector<string>&, string, sf::TcpSocket*, int);
 
 int main()
 {
@@ -86,8 +16,7 @@ int main()
     int code = 0;
     std::vector<sf::TcpSocket*> clients;
     std::vector<string> pseudos;
-
-    int idClient = 0;
+    sf::Packet packet;
 
     sf::TcpListener listener;
     listener.listen(80); //création du listener et écoute du port
@@ -107,15 +36,52 @@ int main()
                 if (listener.accept(*client) == sf::Socket::Done)
                 {
                     clients.push_back(client);
-
                     selector.add(*clients[clients.size()-1]); // Ajout du client au selecteur de telle sorte a ce qu'on puisse l'écouter
 
                     cout << "NOUVEAU CLIENT !! Nombre de clients: " << clients.size() << endl;
 
-                    addingPseudo(pseudos, client, idClient);
+                    client->setBlocking(true);
+                    string pseudo = "";
 
+                    if (client->receive(packet) != sf::Socket::Done)
+                    {
+                        cout << "echec de reception du pseudo" <<endl;
+                    }
+                    packet >> code >> pseudo;
+                    packet.clear();
+
+                    boolean correctPseudo = addingPseudo(pseudos, pseudo, client, code);
+
+                    if(correctPseudo && pseudos.size() == 0 )
+                    {
+                        code = 101;
+                    }
+                    else if(correctPseudo && pseudos.size() != 0 )
+                    {
+                        code = 0;
+                    }
+                    else if(!correctPseudo)
+                    {
+                        code = 1;
+                    }
+
+                    pseudos.push_back(pseudo);
+                    data << code;
+                    if(client->send(data) != sf::Socket::Done)
+                    {
+                        cout << "echec d'envoi du code" <<endl;
+                    }
+                    data.clear();
                     client->setBlocking(false);
-                    idClient++;
+                    cout << "Nom: " << pseudos[pseudos.size()-1] << endl;
+
+
+                    if(!correctPseudo)
+                    {
+                        selector.remove(*clients[clients.size()-1]);
+                        clients.erase(clients.begin()+clients.size()-1);
+                        cout << "CLIENT PARTI"<< endl;
+                    }
 
                 }
                 else
@@ -147,7 +113,6 @@ int main()
                             pseudos.erase(pseudos.begin()+i);
                             i--;
                             limit--;
-                            idClient--;
                             cout << "Nombre de clients: " << clients.size() << endl;
                         }
                     }
@@ -156,4 +121,29 @@ int main()
         }
     }
     return 0;
+}
+
+boolean addingPseudo(std::vector<string>& pseudos, string pseudo, sf::TcpSocket* client, int code)
+{
+
+    boolean pseudoAdded = false;
+
+    if(code == 0) //si l'envoi est bon
+    {
+        boolean pseudoGood = true;
+        for (unsigned int i=0; i<pseudos.size(); i++)
+        {
+            if(pseudos[i] == pseudo)
+            {
+                pseudoGood = false;
+                break;
+            }
+        }
+        if(pseudoGood)
+        {
+            pseudoAdded = true;
+        }
+    }
+
+    return pseudoAdded;
 }
