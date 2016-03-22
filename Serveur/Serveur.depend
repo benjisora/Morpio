@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1458649422 source:c:\users\benjisora\desktop\client serveur\morpio\serveur\main.cpp
+	<iostream>
+	<SFML/Network.hpp>
+	<SFML/Graphics.hpp>
+	<cstdlib>
+	<windows.h>
+	<vector>
+	<string>
+	<thread>
+
+1458644417 c:\users\benjisora\desktop\client serveur\morpio\serveur\make_unique.h
+	<memory>
+	<type_traits>
+	<utility>
+
