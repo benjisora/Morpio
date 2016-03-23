@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1458738752 source:c:\users\mobi\desktop\morpio\client\main.cpp
+	<SFGUI/SFGUI.hpp>
+	<SFGUI/Widgets.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Network.hpp>
+	<iostream>
+	<random>
+	<thread>
+	<sstream>
+
