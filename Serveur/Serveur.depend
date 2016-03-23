@@ -1,8 +1,7 @@
 # depslib dependency file v1.0
-1458663617 source:c:\users\benjisora\desktop\client serveur\morpio\serveur\main.cpp
+1458746064 source:c:\users\benjisora\desktop\client serveur\morpio\serveur\main.cpp
 	<iostream>
 	<SFML/Network.hpp>
-	<SFML/Graphics.hpp>
 	<cstdlib>
 	<windows.h>
 	<vector>
