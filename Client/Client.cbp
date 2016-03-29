@@ -45,6 +45,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="WindowLobby.cpp" />
+		<Unit filename="WindowLobby.h" />
+		<Unit filename="WindowLogIn.cpp" />
+		<Unit filename="WindowLogIn.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

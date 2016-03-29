@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1458738752 source:c:\users\mobi\desktop\morpio\client\main.cpp
+1458751396 source:c:\users\mobi\desktop\morpio\client\main.cpp
 	<SFGUI/SFGUI.hpp>
 	<SFGUI/Widgets.hpp>
 	<SFML/Graphics.hpp>
@@ -8,4 +8,27 @@
 	<random>
 	<thread>
 	<sstream>
+	"WindowLogIn.h"
+	"WindowLobby.h"
+
+1458751176 c:\users\mobi\desktop\morpio\client\windowlogin.h
+	<SFGUI/SFGUI.hpp>
+	<SFGUI/Widgets.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Network.hpp>
+	<iostream>
+
+1458751114 source:c:\users\mobi\desktop\morpio\client\windowlogin.cpp
+	"WindowLogIn.h"
+	<sstream>
+
+1458751114 source:c:\users\mobi\desktop\morpio\client\windowlobby.cpp
+	"WindowLobby.h"
+
+1458751054 c:\users\mobi\desktop\morpio\client\windowlobby.h
+	<SFGUI/SFGUI.hpp>
+	<SFGUI/Widgets.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Network.hpp>
+	<iostream>
 
