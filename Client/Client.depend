@@ -32,3 +32,36 @@
 	<SFML/Network.hpp>
 	<iostream>
 
+1459371159 source:c:\users\tom-m\desktop\morpio\client\main.cpp
+	<SFGUI/SFGUI.hpp>
+	<SFGUI/Widgets.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Network.hpp>
+	<iostream>
+	<random>
+	<thread>
+	<sstream>
+	"WindowLogIn.h"
+	"WindowLobby.h"
+
+1459371159 c:\users\tom-m\desktop\morpio\client\windowlogin.h
+	<SFGUI/SFGUI.hpp>
+	<SFGUI/Widgets.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Network.hpp>
+	<iostream>
+
+1459371159 c:\users\tom-m\desktop\morpio\client\windowlobby.h
+	<SFGUI/SFGUI.hpp>
+	<SFGUI/Widgets.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Network.hpp>
+	<iostream>
+
+1459371159 source:c:\users\tom-m\desktop\morpio\client\windowlobby.cpp
+	"WindowLobby.h"
+
+1459371159 source:c:\users\tom-m\desktop\morpio\client\windowlogin.cpp
+	"WindowLogIn.h"
+	<sstream>
+
