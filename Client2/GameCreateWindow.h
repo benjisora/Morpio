@@ -1,26 +1,22 @@
-#ifndef LOGINWINDOW_H
-#define LOGINWINDOW_H
+#ifndef GAMECREATEWINDOW_H
+#define GAMECREATEWINDOW_H
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <string>
 #include "InputText.h"
 #include "Button.h"
-#include <iostream>
-#include "Network.h"
 
 
-class LoginWindow
+
+class GameCreateWindow
 {
     public:
-        LoginWindow();
-        virtual ~LoginWindow();
+        GameCreateWindow();
+        virtual ~GameCreateWindow();
         void create();
         void event(sf::Event& event);
         void step();
         void draw(sf::RenderWindow& window);
-        bool isClicked();
-        std::string getIp();
-        int getPort();
-        std::string getPseudo();
 
     protected:
 
@@ -35,4 +31,4 @@ class LoginWindow
         sf::Text boxText, credit;
 };
 
-#endif // LOGINWINDOW_H
+#endif // GAMECREATEWINDOW_H

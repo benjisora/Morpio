@@ -45,10 +45,14 @@
 		<Unit filename="Button.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
+		<Unit filename="GameCreateWindow.cpp" />
+		<Unit filename="GameCreateWindow.h" />
 		<Unit filename="InputText.cpp" />
 		<Unit filename="InputText.h" />
 		<Unit filename="LoginWindow.cpp" />
 		<Unit filename="LoginWindow.h" />
+		<Unit filename="Network.cpp" />
+		<Unit filename="Network.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="main.cpp" />

@@ -1,4 +1,6 @@
 #include "LoginWindow.h"
+#include <sstream>
+#include <string>
 
 LoginWindow::LoginWindow()
 {
@@ -52,7 +54,7 @@ void LoginWindow::create()
     input3.setTrickness(0);
     input3.setMaxLength(14);
 
-    button.create(sf::Vector2f(800, 250), sf::Vector2f(192, 46));
+    button.create(sf::Vector2f(800, 250), sf::Vector2f(192, 46), "Connexion");
 }
 
 void LoginWindow::event(sf::Event& event)
@@ -61,7 +63,7 @@ void LoginWindow::event(sf::Event& event)
     input2.event(event);
     input3.event(event);
 
-    button.step();
+    button.event(event);
 }
 
 void LoginWindow::step()
@@ -69,6 +71,8 @@ void LoginWindow::step()
     input1.step();
     input2.step();
     input3.step();
+
+    button.step();
 }
 
 void LoginWindow::draw(sf::RenderWindow& window)
@@ -82,4 +86,27 @@ void LoginWindow::draw(sf::RenderWindow& window)
     button.draw(window);
 
     window.draw(credit);
+}
+
+bool LoginWindow::isClicked()
+{
+    return button.isClicked();
+}
+
+std::string LoginWindow::getIp()
+{
+    return input1.getText();
+}
+
+int LoginWindow::getPort()
+{
+    std::stringstream sstr{input2.getText()};
+    int value;
+    sstr >> value;
+    return value;
+}
+
+std::string LoginWindow::getPseudo()
+{
+    return input3.getText();
 }

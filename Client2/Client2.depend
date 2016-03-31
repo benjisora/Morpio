@@ -63,33 +63,40 @@
 	<iostream>
 	<vector>
 
-1459409928 source:c:\users\mobi\desktop\morpio\client2\button.cpp
+1459434100 source:c:\users\mobi\desktop\morpio\client2\button.cpp
 	"Button.h"
 
-1459409928 c:\users\mobi\desktop\morpio\client2\button.h
+1459434100 c:\users\mobi\desktop\morpio\client2\button.h
 	<SFML/Graphics.hpp>
+	"Network.h"
+	"signal.h"
+	<cstdio>
+	<iostream>
 
-1459409928 source:c:\users\mobi\desktop\morpio\client2\game.cpp
+1459438838 source:c:\users\mobi\desktop\morpio\client2\game.cpp
 	"Game.h"
 
-1459409928 c:\users\mobi\desktop\morpio\client2\game.h
+1459434230 c:\users\mobi\desktop\morpio\client2\game.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<vector>
 	"Player.h"
 	"Board.h"
 	"LoginWindow.h"
+	"Network.h"
+	"GameCreateWindow.h"
 
 1459409928 c:\users\mobi\desktop\morpio\client2\player.h
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1459409928 c:\users\mobi\desktop\morpio\client2\loginwindow.h
+1459435581 c:\users\mobi\desktop\morpio\client2\loginwindow.h
 	<SFML/Graphics.hpp>
 	<string>
 	"InputText.h"
 	"Button.h"
 	<iostream>
+	"Network.h"
 
 1459409928 c:\users\mobi\desktop\morpio\client2\inputtext.h
 	<SFML/Graphics.hpp>
@@ -101,8 +108,10 @@
 	<windows.h>
 	<iostream>
 
-1459409928 source:c:\users\mobi\desktop\morpio\client2\loginwindow.cpp
+1459438824 source:c:\users\mobi\desktop\morpio\client2\loginwindow.cpp
 	"LoginWindow.h"
+	<sstream>
+	<string>
 
 1459421481 source:c:\users\mobi\desktop\morpio\client2\main.cpp
 	<SFML/Graphics.hpp>
@@ -111,8 +120,29 @@
 1459409928 source:c:\users\mobi\desktop\morpio\client2\player.cpp
 	"Player.h"
 
-1459425464 source:c:\users\mobi\desktop\morpio\client2\network.cpp
+1459428524 source:c:\users\mobi\desktop\morpio\client2\network.cpp
 	"Network.h"
 
-1459425464 c:\users\mobi\desktop\morpio\client2\network.h
+1459428479 c:\users\mobi\desktop\morpio\client2\network.h
+	<iostream>
+	<SFML/Network.hpp>
+
+1459429087 c:\users\mobi\desktop\morpio\client2\signal.h
+	<functional>
+	<utility>
+	"signal.incl"
+
+1459429087 c:\users\mobi\desktop\morpio\client2\signal.incl
+	<cstddef>
+	<type_traits>
+
+1459433880 source:c:\users\mobi\desktop\morpio\client2\gamecreatewindow.cpp
+	"GameCreateWindow.h"
+
+1459433752 c:\users\mobi\desktop\morpio\client2\gamecreatewindow.h
+	<SFML/Graphics.hpp>
+	<iostream>
+	<string>
+	"InputText.h"
+	"Button.h"
 

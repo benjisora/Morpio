@@ -6,6 +6,9 @@
 #include "Player.h"
 #include "Board.h"
 #include "LoginWindow.h"
+#include "Network.h"
+#include "GameCreateWindow.h"
+
 
 class Game
 {
@@ -24,6 +27,9 @@ class Game
     std::vector<int> m_tab;
     Board m_board;
     LoginWindow m_loginWindow;
+    GameCreateWindow m_gameCreateWindows;
+    Network network;
+    int m_phase;
 
 };
 
