@@ -40,15 +40,15 @@ void LoginWindow::create()
 
 
 
-    input1.create(sf::Vector2f(800,100), "adresse");
+    input1.create(sf::Vector2f(800,100), "Adresse");
     input1.setTrickness(0);
     input1.setMaxLength(15);
 
-    input2.create(sf::Vector2f(800,150), "port");
+    input2.create(sf::Vector2f(800,150), "Port");
     input2.setTrickness(0);
     input2.setMaxLength(5);
 
-    input3.create(sf::Vector2f(800,200), "pseudo");
+    input3.create(sf::Vector2f(800,200), "Pseudo");
     input3.setTrickness(0);
     input3.setMaxLength(14);
 

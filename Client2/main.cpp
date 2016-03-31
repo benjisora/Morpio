@@ -5,7 +5,8 @@ int main()
 {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Morpio", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "Morpio", sf::Style::Close, settings);
+    window.setFramerateLimit(60);
 
     Game game;
     game.create();
