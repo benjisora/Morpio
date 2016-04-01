@@ -35,7 +35,6 @@ void Board::step()
 
 void Board::draw(sf::RenderWindow& window)
 {
-
     for(int y=0; y<m_size; y++)
     {
         for(int x=0; x<m_size; x++)
@@ -48,4 +47,9 @@ void Board::draw(sf::RenderWindow& window)
 void Board::setColor(int x, int y, sf::Color color)
 {
     m_tab[x+m_size*y].setFillColor(color);
+}
+
+int Board::getSizeCase()
+{
+    return 768/m_size;
 }

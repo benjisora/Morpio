@@ -14,6 +14,7 @@ class Board
         void step();
         void draw(sf::RenderWindow& window);
         void setColor(int x, int y, sf::Color color);
+        int getSizeCase();
 
     protected:
 

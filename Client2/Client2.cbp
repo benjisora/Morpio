@@ -47,8 +47,12 @@
 		<Unit filename="Game.h" />
 		<Unit filename="GameCreateWindow.cpp" />
 		<Unit filename="GameCreateWindow.h" />
+		<Unit filename="InGameWindow.cpp" />
+		<Unit filename="InGameWindow.h" />
 		<Unit filename="InputText.cpp" />
 		<Unit filename="InputText.h" />
+		<Unit filename="LobbyWait.cpp" />
+		<Unit filename="LobbyWait.h" />
 		<Unit filename="LoginWindow.cpp" />
 		<Unit filename="LoginWindow.h" />
 		<Unit filename="Network.cpp" />

@@ -9,6 +9,10 @@ class Network
         Network();
         virtual ~Network();
         bool connect(std::string ip, int port, std::string pseudo);
+        bool sendCreateGame(int nbPlayer, int sizeGrid, int scoreMin);
+        bool sendPositionClick(int posX, int posY);
+
+        int receiveCode();
 
     protected:
 

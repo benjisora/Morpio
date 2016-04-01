@@ -6,8 +6,6 @@
 #include "InputText.h"
 #include "Button.h"
 
-
-
 class GameCreateWindow
 {
     public:
@@ -17,6 +15,10 @@ class GameCreateWindow
         void event(sf::Event& event);
         void step();
         void draw(sf::RenderWindow& window);
+        bool isClicked();
+        int getNbPlayer();
+        int getSizeGrid();
+        int getScoreMin();
 
     protected:
 

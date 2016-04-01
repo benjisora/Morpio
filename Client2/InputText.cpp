@@ -182,6 +182,7 @@ void InputText::setSize(sf::Vector2f size)
 void InputText::setText(std::string text)
 {
     m_text = text;
+    m_selected = true;
 }
 
 void InputText::setDisplayText(std::string displayText)

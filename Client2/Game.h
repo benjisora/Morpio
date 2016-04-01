@@ -8,7 +8,8 @@
 #include "LoginWindow.h"
 #include "Network.h"
 #include "GameCreateWindow.h"
-
+#include "LobbyWait.h"
+#include "InGameWindow.h"
 
 class Game
 {
@@ -29,8 +30,10 @@ class Game
     LoginWindow m_loginWindow;
     GameCreateWindow m_gameCreateWindows;
     Network network;
+    LobbyWait wait;
+    InGameWindow m_inGameWindow;
     int m_phase;
-
+    sf::Vector2i localPosition;
 };
 
 #endif // GAME_H

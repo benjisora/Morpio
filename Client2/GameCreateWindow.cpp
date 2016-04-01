@@ -1,4 +1,6 @@
 #include "GameCreateWindow.h"
+#include <sstream>
+#include <string>
 
 GameCreateWindow::GameCreateWindow()
 {
@@ -59,7 +61,7 @@ void GameCreateWindow::event(sf::Event& event)
     input2.event(event);
     input3.event(event);
 
-    button.step();
+    button.event(event);
 }
 
 void GameCreateWindow::step()
@@ -67,6 +69,8 @@ void GameCreateWindow::step()
     input1.step();
     input2.step();
     input3.step();
+
+    button.step();
 }
 
 void GameCreateWindow::draw(sf::RenderWindow& window)
@@ -80,4 +84,33 @@ void GameCreateWindow::draw(sf::RenderWindow& window)
     button.draw(window);
 
     window.draw(credit);
+}
+
+bool GameCreateWindow::isClicked()
+{
+    return button.isClicked();
+}
+
+int GameCreateWindow::getNbPlayer()
+{
+    std::stringstream sstr{input1.getText()};
+    int value;
+    sstr >> value;
+    return value;
+}
+
+int GameCreateWindow::getSizeGrid()
+{
+    std::stringstream sstr{input2.getText()};
+    int value;
+    sstr >> value;
+    return value;
+}
+
+int GameCreateWindow::getScoreMin()
+{
+    std::stringstream sstr{input3.getText()};
+    int value;
+    sstr >> value;
+    return value;
 }
