@@ -10,7 +10,7 @@ using namespace std;
 
 boolean addingPseudo(std::vector<string>&, string, int);
 
-void Lobby(std::vector<string>, int, std::vector<sf::TcpSocket*>);
+void Lobby(/*std::vector<string>, int, std::vector<sf::TcpSocket*>*/ int, int, int);
 
 string Partie(std::vector<sf::TcpSocket*>, std::vector<string>);
 
@@ -55,7 +55,9 @@ int main()
                     boolean correctPseudo = addingPseudo(pseudos, pseudo, code);
                     client->setBlocking(false);
 
-                    if(correctPseudo)
+                    if(correctPseudo && clients.size()==1)
+                        code = 101;
+                    else if (correctPseudo && clients.size()!=1)
                         code = 0;
                     else
                         code = 1;
@@ -76,7 +78,8 @@ int main()
                         cout << "ERREUR : echec d'envoi du code" <<endl;
                     data.clear();
 
-                    //std::thread t1(Lobby, clients, pseudos, client);
+                    std::thread t1(Lobby, 1,2,3);
+                    t1.detach();
 
                 }
                 else
@@ -93,31 +96,38 @@ int main()
                     {
                         // Le client a fait quelque chose dans la socket
 
-                        sf::Packet data2;
-                        if (clients[i]->receive(data2) != sf::Socket::Disconnected)
+                        if(i==0)
                         {
-                            data2 >> code;
-                            if(code == 5)
-                                std::thread tlobby(Lobby, pseudos, i, clients);
-                        }
-                    }
-                    else
-                    {
-                        cout << pseudos[i] << " est parti" << endl;
+                            sf::Packet data2;
+                            int nbJoueursPartie, tailleGrillePartie, scoreMinimal;
 
-                        selector.remove(*clients[i]);
-                        clients.erase(clients.begin()+i);
-                        pseudos.erase(pseudos.begin()+i);
-                        i--;
-                        limit--;
-                        cout << "Nombre de clients: " << clients.size() << endl;
+                            if (clients[i]->receive(data2) != sf::Socket::Disconnected)
+                            {
+                                data2 >> code >> nbJoueursPartie >> tailleGrillePartie >> scoreMinimal;
+                                if(code == 0)
+                                    cout << nbJoueursPartie << " " << tailleGrillePartie << " " << scoreMinimal << endl;
+                            }
+
+                            else // déconnexion du joueur i
+                            {
+                                cout << pseudos[i] << " est parti" << endl;
+
+                                selector.remove(*clients[i]);
+                                clients.erase(clients.begin()+i);
+                                pseudos.erase(pseudos.begin()+i);
+                                i--;
+                                limit--;
+                                cout << "Nombre de clients: " << clients.size() << endl;
+                            }
+                        }
+
                     }
                 }
             }
         }
     }
 
-return 0;
+    return 0;
 }
 
 boolean addingPseudo(std::vector<string>& pseudos, string pseudo, int code)
@@ -144,24 +154,11 @@ boolean addingPseudo(std::vector<string>& pseudos, string pseudo, int code)
 }
 
 
-void Lobby(std::vector<string> pseudos, int position, std::vector<sf::TcpSocket*> clients)
+void Lobby(/*std::vector<string> pseudos, int position, std::vector<sf::TcpSocket*> clients*/ int a, int b, int c)
 {
-    sf::Packet data;
-    data << 0;
-    for(int i = 0; i < clients.size(); i++)
-    {
-        data << pseudos[i];
-    }
-    for(int i = 0; i < clients.size(); i++)
-    {
-        if(i != position)
-        {
-            if(clients[i]->send(data) != sf::Socket::Done)
-                cout << "ERREUR : echec d'envoi du code" <<endl;
-            data.clear();
-        }
-
-    }
+   cout << "coucou" << endl;
+   Sleep(5000);
+   cout << "fini ?" << endl;
 }
 
 string Partie(std::vector<sf::TcpSocket*> clients, std::vector<string> pseudos)
