@@ -2,6 +2,8 @@
 #define NETWORK_H
 #include <iostream>
 #include <SFML/Network.hpp>
+#include "Player.h"
+#include <vector>
 
 class Network
 {
@@ -13,6 +15,11 @@ class Network
         bool sendPositionClick(int posX, int posY);
 
         int receiveCode();
+        int receiveSize();
+        int receiveErrorCreate();
+        std::vector<std::string> receivePlayerName();
+
+        void setBlocking(bool block);
 
     protected:
 

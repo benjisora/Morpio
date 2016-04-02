@@ -34,6 +34,8 @@ class Game
     InGameWindow m_inGameWindow;
     int m_phase;
     sf::Vector2i localPosition;
+    int code;
+    bool gameCreated;
 };
 
 #endif // GAME_H

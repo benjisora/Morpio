@@ -1,35 +1,39 @@
 # depslib dependency file v1.0
-1459379904 source:c:\users\tom-m\desktop\morpio\client2\main.cpp
+1459536088 source:c:\users\tom-m\desktop\morpio\client2\main.cpp
 	<SFML/Graphics.hpp>
 	"Game.h"
 
-1459376661 source:c:\users\tom-m\desktop\morpio\client2\board.cpp
+1459555435 source:c:\users\tom-m\desktop\morpio\client2\board.cpp
 	"Board.h"
 
-1459376661 c:\users\tom-m\desktop\morpio\client2\board.h
+1459536087 c:\users\tom-m\desktop\morpio\client2\board.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<vector>
 
-1459376752 source:c:\users\tom-m\desktop\morpio\client2\game.cpp
+1459557602 source:c:\users\tom-m\desktop\morpio\client2\game.cpp
 	"Game.h"
 
-1459376704 c:\users\tom-m\desktop\morpio\client2\game.h
+1459557170 c:\users\tom-m\desktop\morpio\client2\game.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<vector>
 	"Player.h"
 	"Board.h"
 	"LoginWindow.h"
+	"Network.h"
+	"GameCreateWindow.h"
+	"LobbyWait.h"
+	"InGameWindow.h"
 
-1459373566 source:c:\users\tom-m\desktop\morpio\client2\player.cpp
+1459536087 source:c:\users\tom-m\desktop\morpio\client2\player.cpp
 	"Player.h"
 
-1459373980 c:\users\tom-m\desktop\morpio\client2\player.h
+1459536087 c:\users\tom-m\desktop\morpio\client2\player.h
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1459377909 source:c:\users\tom-m\desktop\morpio\client2\inputtext.cpp
+1459536087 source:c:\users\tom-m\desktop\morpio\client2\inputtext.cpp
 	"InputText.h"
 	<SFML/Graphics.hpp>
 	<windows.h>
@@ -39,21 +43,28 @@
 	<SFML/Graphics.hpp>
 	<string>
 
-1459382598 c:\users\tom-m\desktop\morpio\client2\loginwindow.h
+1459536087 c:\users\tom-m\desktop\morpio\client2\loginwindow.h
 	<SFML/Graphics.hpp>
 	<string>
 	"InputText.h"
 	"Button.h"
 	<iostream>
+	"Network.h"
 
-1459382859 source:c:\users\tom-m\desktop\morpio\client2\loginwindow.cpp
+1459547379 source:c:\users\tom-m\desktop\morpio\client2\loginwindow.cpp
 	"LoginWindow.h"
+	<sstream>
+	<string>
 
-1459382967 source:c:\users\tom-m\desktop\morpio\client2\button.cpp
+1459536087 source:c:\users\tom-m\desktop\morpio\client2\button.cpp
 	"Button.h"
 
-1459381451 c:\users\tom-m\desktop\morpio\client2\button.h
+1459536087 c:\users\tom-m\desktop\morpio\client2\button.h
 	<SFML/Graphics.hpp>
+	"Network.h"
+	"signal.h"
+	<cstdio>
+	<iostream>
 
 1459527093 source:c:\users\mobi\desktop\morpio\client2\board.cpp
 	"Board.h"
@@ -165,4 +176,41 @@
 	<iostream>
 	<vector>
 	"Player.h"
+
+1459559145 c:\users\tom-m\desktop\morpio\client2\network.h
+	<iostream>
+	<SFML/Network.hpp>
+	"Player.h"
+	<vector>
+
+1459552856 source:c:\users\tom-m\desktop\morpio\client2\gamecreatewindow.cpp
+	"GameCreateWindow.h"
+	<sstream>
+	<string>
+
+1459536087 c:\users\tom-m\desktop\morpio\client2\gamecreatewindow.h
+	<SFML/Graphics.hpp>
+	<iostream>
+	<string>
+	"InputText.h"
+	"Button.h"
+
+1459536087 source:c:\users\tom-m\desktop\morpio\client2\ingamewindow.cpp
+	"InGameWindow.h"
+
+1459536087 c:\users\tom-m\desktop\morpio\client2\ingamewindow.h
+	<SFML/Graphics.hpp>
+	<iostream>
+	<vector>
+	"Player.h"
+
+1459536087 source:c:\users\tom-m\desktop\morpio\client2\lobbywait.cpp
+	"LobbyWait.h"
+
+1459536087 c:\users\tom-m\desktop\morpio\client2\lobbywait.h
+	<SFML/Graphics.hpp>
+	<iostream>
+
+1459555190 source:c:\users\tom-m\desktop\morpio\client2\network.cpp
+	"Network.h"
 

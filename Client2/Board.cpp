@@ -12,6 +12,7 @@ Board::~Board()
 
 void Board::create(int size)
 {
+    m_tab.clear();
     m_size = size;
     float sizeRect = (768/m_size)-5;
 

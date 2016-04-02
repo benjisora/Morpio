@@ -37,6 +37,9 @@ void Game::create()
 
     m_inGameWindow.create(m_player);
 
+    //std::cin >> m_phase;
+
+    gameCreated = false;
 }
 
 void Game::event(sf::Event& event)
@@ -71,6 +74,7 @@ void Game::step()
     {
         if(m_loginWindow.isClicked())
         {
+            network.setBlocking(true);
             if(network.connect(m_loginWindow.getIp(), m_loginWindow.getPort(), m_loginWindow.getPseudo()))
             {
                 if(network.receiveCode()==101)
@@ -92,9 +96,18 @@ void Game::step()
     {
         if(m_gameCreateWindows.isClicked())
         {
+            network.setBlocking(true);
             if(network.sendCreateGame(m_gameCreateWindows.getNbPlayer(), m_gameCreateWindows.getSizeGrid(), m_gameCreateWindows.getScoreMin()))
             {
-                m_phase = 3;
+                if(network.receiveErrorCreate()==1)
+                {
+                    std::cout << "Error dans les champs" << std::endl;
+                }
+                else
+                {
+                    m_phase = 3;
+                }
+
             }
             else
             {
@@ -107,9 +120,32 @@ void Game::step()
     if(m_phase == 3)
     {
         wait.step();
+
+        network.setBlocking(false);
+        code = network.receiveCode();
+
+        if(code==5)
+        {
+            m_phase = 4;
+        }
+        else if(code==101)
+        {
+            m_phase = 2;
+        }
+
+
     }
     if(m_phase == 4)
     {
+        //network.setBlocking(true);
+        int size = network.receiveSize();
+        if(size>0 && gameCreated == false)
+        {
+            m_board.create(size);
+            gameCreated = true;
+        }
+
+
         m_board.step();
         m_inGameWindow.step();
     }

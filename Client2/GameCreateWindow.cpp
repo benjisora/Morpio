@@ -43,14 +43,17 @@ void GameCreateWindow::create()
     input1.create(sf::Vector2f(800,100), "Nombre de joueurs");
     input1.setTrickness(0);
     input1.setMaxLength(15);
+    input1.setText("2");
 
     input2.create(sf::Vector2f(800,150), "Taille de la grille");
     input2.setTrickness(0);
     input2.setMaxLength(5);
+    input2.setText("3");
 
     input3.create(sf::Vector2f(800,200), "Score minimal");
     input3.setTrickness(0);
     input3.setMaxLength(14);
+    input3.setText("3");
 
     button.create(sf::Vector2f(800, 250), sf::Vector2f(192, 46), "     Créer");
 }
