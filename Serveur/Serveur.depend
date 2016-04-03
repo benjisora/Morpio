@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1459505842 source:c:\users\benjisora\desktop\client serveur\morpio\serveur\main.cpp
+1459656540 source:c:\users\benjisora\desktop\client serveur\morpio\serveur\main.cpp
 	<iostream>
 	<SFML/Network.hpp>
 	<cstdlib>
@@ -7,6 +7,7 @@
 	<vector>
 	<string>
 	<thread>
+	<math.h>
 
 1458644417 c:\users\benjisora\desktop\client serveur\morpio\serveur\make_unique.h
 	<memory>
