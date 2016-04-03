@@ -163,6 +163,15 @@ int Network::receivePosition(int& posX, int& posY)
     return code;
 }
 
+int Network::receiveWinner(int& id)
+{
+    int code = -1;
+    if (m_socket.receive(m_data) == sf::Socket::Done)
+         m_data >> code >> id;
+    m_data.clear();
+    return code;
+}
+
 
 void Network::setBlocking(bool block)
 {

@@ -21,6 +21,7 @@ class Network
         int receivePlayerName(int& id, std::string& pseudo);
         int receivePlayerTurn(int& idPlayerTurn);
         int receivePosition(int& posX, int& posY);
+        int receiveWinner(int& id);
 
         void setBlocking(bool block);
 

@@ -22,20 +22,6 @@ void Game::create()
 
     m_phase = 1;
 
-    /*Player p1("Joueur 1", 0);
-    m_player.push_back(p1);
-    Player p2("Joueur 2", 1);
-    m_player.push_back(p2);
-    Player p3("Joueur 3", 2);
-    m_player.push_back(p3);
-    Player p4("Joueur 4", 3);
-    m_player.push_back(p4);
-    Player p5("Joueur 5", 4);
-    m_player.push_back(p5);
-    Player p6("Joueur 6", 5);
-    m_player.push_back(p6);*/
-
-
 
     //std::cin >> m_phase;
 
@@ -46,7 +32,7 @@ void Game::create()
 void Game::event(sf::Event& event)
 {
     /*if (event.type == sf::Event::Closed)
-        network.sendCode(12);*/
+        network.sendCode(14);*/
 
 
     if(m_phase == 1)
@@ -154,7 +140,8 @@ void Game::step()
     if(m_phase == 4)
     {
 
-
+        int id;
+        int code2, code3;
         if(/*size>0 && */gameCreated == false)
         {
             network.setBlocking(true);
@@ -166,9 +153,9 @@ void Game::step()
                 m_tab.push_back(0);
 
 
-            int id;
+
             std::string pseudo;
-            int code2;
+
             int ii=1;
             do
             {
@@ -200,6 +187,8 @@ void Game::step()
 
         network.setBlocking(false);
         code = network.receivePosition(posX, posY);
+        code2 = network.receiveWinner(id);
+        //code3 = network.receiveCode();
         if(code == 11)
         {
             m_board.setColor(posX, posY, m_player[playerTurn%m_player.size()].getColor());
@@ -207,11 +196,24 @@ void Game::step()
             code = 0;
             m_inGameWindow.setCurrentPlayer(playerTurn%m_player.size());
         }
+        else if(code==14)
+        {
+            std::cout << "An player leave" << std::endl;
+            m_phase = 3;
+            code  = 0;
+        }
         else
         {
             posX = 0;
             posY = 0;
         }
+
+        if(code2==13)
+        {
+            std::cout << "WINNER IS " << m_player[id+m_player[0].getId()-1].getPseudo() << std::endl;
+            code2=0;
+        }
+
 
         m_board.step();
         m_inGameWindow.step();
