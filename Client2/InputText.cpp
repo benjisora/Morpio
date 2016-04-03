@@ -1,9 +1,10 @@
 #include "InputText.h"
 #include <SFML/Graphics.hpp>
-#include <windows.h>
 #include <iostream>
 
-
+#ifdef SFML_SYSTEM_WINDOWS
+    #include <windows.h>
+#endif
 
 InputText::InputText()
 {
@@ -49,7 +50,7 @@ InputText::InputText(sf::Vector2f position, std::string displayText)
     m_maxLength = -1;
 
 
-    if (!m_font.loadFromFile("Exo-Light.otf"))
+    if (!m_font.loadFromFile("res/Exo-Light.otf"))
     {
         // error...
     }
@@ -124,7 +125,7 @@ void InputText::create(sf::Vector2f position, std::string displayText)
     m_maxLength = -1;
 
 
-    if (!m_font.loadFromFile("Exo-Light.otf"))
+    if (!m_font.loadFromFile("res/Exo-Light.otf"))
     {
         // error...
     }
@@ -273,7 +274,12 @@ void InputText::step()
     if(localPosition.x >= m_box.getPosition().x && localPosition.x <= m_box.getPosition().x+m_box.getSize().x
             && localPosition.y >=  m_box.getPosition().y && localPosition.y <= m_box.getPosition().y+m_box.getSize().y)
     {
+        #ifdef SFML_SYSTEM_WINDOWS
+
         SetCursor(LoadCursor(NULL, IDC_IBEAM));
+
+        #endif
+
     }
 
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left))

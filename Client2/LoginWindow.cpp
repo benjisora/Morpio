@@ -14,11 +14,11 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::create()
 {
-    if (!font.loadFromFile("Exo-Regular.otf"))
+    if (!font.loadFromFile("res/Exo-Regular.otf"))
     {
         std::cout << "error font" << std::endl;
     }
-    if (!font2.loadFromFile("Exo-Light.otf"))
+    if (!font2.loadFromFile("res/Exo-Light.otf"))
     {
         std::cout << "error font" << std::endl;
     }

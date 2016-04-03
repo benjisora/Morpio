@@ -12,13 +12,13 @@ LobbyWait::~LobbyWait()
 
 void LobbyWait::create()
 {
-    tex1.loadFromFile("wait2.png");
+    tex1.loadFromFile("res/wait2.png");
     //tex1.setSmooth(true);
     spr1.setTexture(tex1);
     spr1.setOrigin(spr1.getGlobalBounds().width/2.f, spr1.getGlobalBounds().height/2.f);
     spr1.setPosition(1024/2, 728/2-40);
 
-    tex2.loadFromFile("wait.png");
+    tex2.loadFromFile("res/wait.png");
     tex2.setSmooth(true);
     spr2.setTexture(tex2);
     spr2.setOrigin(spr2.getGlobalBounds().width/2.f, spr2.getGlobalBounds().height/2.f);
@@ -32,7 +32,7 @@ void LobbyWait::create()
     previousMessage = -1;
 
 
-    if (!font.loadFromFile("Exo-Regular.otf"))
+    if (!font.loadFromFile("res/Exo-Regular.otf"))
     {
         std::cout << "error font" << std::endl;
     }
@@ -45,25 +45,25 @@ void LobbyWait::create()
     boxText.setOrigin(boxText.getLocalBounds().width/2, 0);
     boxText.setPosition(1024/2,600);
 
-    text.push_back("Rotater le chargement");
+    text.push_back("Rotation du chargement");
     text.push_back("Ajout de booster");
     text.push_back("Recherche du dernier post 9gag");
     text.push_back("Analyse du tobydélice");
-    text.push_back("Appliquer les couleurs quantiques");
+    text.push_back("Application des couleurs quantiques");
     text.push_back("Démêlage de la mémoire vive");
-    text.push_back("Etirer le processeur");
-    text.push_back("Extraire les données personelles");
-    text.push_back("Creuser le fromage");
+    text.push_back("Etirement du processeur");
+    text.push_back("Extraction des données personelles");
+    text.push_back("Creusage du fromage");
     text.push_back("Recherche du majora's mask");
     text.push_back("Alignement de la grille frequentielle");
-    text.push_back("Accorder les instruments de mesure");
+    text.push_back("Accordage des instruments de mesure");
     text.push_back("Lecture des citations usb");
-    text.push_back("Polir le gravier");
-    text.push_back("Diagnostiquer le bug entre l'écran et la chaise");
+    text.push_back("Polissage du gravier");
+    text.push_back("Diagnostique du bug entre l'écran et la chaise");
     text.push_back("Nettoyage de l'accordéon");
-    text.push_back("Standardiser les boules de Goo");
-    text.push_back("Générer un MVC séquentiel");
-    text.push_back("Estimer le temps d'attente");
+    text.push_back("Standardisation les boules de Goo");
+    text.push_back("Génération du MVC séquentiel");
+    text.push_back("Estimation du temps d'attente");
 
 }
 

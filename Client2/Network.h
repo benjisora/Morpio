@@ -13,6 +13,7 @@ class Network
         bool connect(std::string ip, int port, std::string pseudo);
         bool sendCreateGame(int nbPlayer, int sizeGrid, int scoreMin);
         bool sendPositionClick(int posX, int posY);
+        bool sendCode(int code);
 
         int receiveCode();
         int receiveSize();

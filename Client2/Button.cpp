@@ -12,7 +12,7 @@ Button::~Button()
 
 void Button::create(sf::Vector2f position, sf::Vector2f size, std::string label)
 {
-    if (!m_font.loadFromFile("Exo-Bold.otf"))
+    if (!m_font.loadFromFile("res/Exo-Bold.otf"))
     {
         //std::cout << "error font" << std::endl;
     }

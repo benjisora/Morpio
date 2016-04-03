@@ -19,10 +19,10 @@ int main()
 
         while (window.pollEvent(event))
         {
+            game.event(event);
+
             if (event.type == sf::Event::Closed)
                 window.close();
-
-            game.event(event);
         }
         game.step();
         window.clear(sf::Color(50,50,50));

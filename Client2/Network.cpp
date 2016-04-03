@@ -64,7 +64,19 @@ bool Network::sendPositionClick(int posX, int posY)
     return true;
 }
 
+bool Network::sendCode(int code)
+{
+    m_data << code << -1 << -1;
+    if (m_socket.send(m_data) != sf::Socket::Done)
+    {
+        m_data.clear();
+        return false;
+    }
+    std::cout << "send >> " << code << std::endl;
+    m_data.clear();
 
+    return true;
+}
 
 
 

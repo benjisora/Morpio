@@ -12,11 +12,11 @@ InGameWindow::~InGameWindow()
 
 void InGameWindow::create(std::vector<Player> player)
 {
-    if (!font.loadFromFile("Exo-Regular.otf"))
+    if (!font.loadFromFile("res/Exo-Regular.otf"))
     {
         std::cout << "Error font: can't find \"Exo-Regular.otf\"." << std::endl;
     }
-    if (!font2.loadFromFile("Exo-Light.otf"))
+    if (!font2.loadFromFile("res/Exo-Light.otf"))
     {
         std::cout << "Error font: can't find \"Exo-Light.otf\"." << std::endl;
     }

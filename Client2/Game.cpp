@@ -20,7 +20,7 @@ void Game::create()
 
     wait.create();
 
-    m_phase = 1;
+    m_phase = 3;
 
     /*Player p1("Joueur 1", 0);
     m_player.push_back(p1);
@@ -45,6 +45,10 @@ void Game::create()
 
 void Game::event(sf::Event& event)
 {
+    /*if (event.type == sf::Event::Closed)
+        network.sendCode(12);*/
+
+
     if(m_phase == 1)
     {
         m_loginWindow.event(event);
