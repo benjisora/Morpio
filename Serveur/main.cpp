@@ -10,11 +10,17 @@
 using namespace std;
 
 boolean addingPseudo(string, int);
-void GameThread(int, int, int, int, int);
+bool horizontalWin(std::vector<int>, int, int, int, int, int);
+bool verticalWin(std::vector<int>, int, int, int, int, int);
+bool diagWin(std::vector<int>, int, int, int, int, int);
+bool diagWin2(std::vector<int>, int, int, int, int, int);
+bool GameThread(int, int, int, int, int);
+std::vector<std::thread*> Threads;
 
 std::vector<sf::TcpSocket*> clients; //Tableau de connexions de clients
 std::vector<string> pseudos; //Tableau de pseudos relatifs aux clients (association par id)
 int playerCreator = -1; //Joueur ayant les droits de création sur la partie
+
 sf::SocketSelector selector;
 int main()
 {
@@ -78,6 +84,7 @@ int main()
                     if (playerCreator == -1)
                     {
                         cout << "pseudos.size : " << pseudos.size() - 1 << endl;
+
                         playerCreator = pseudos.size() - 1;
                     }
 
@@ -117,10 +124,11 @@ int main()
                                             tailleGrillePartie > 0 && scoreMinimal > 0 && nbJoueursPartie > 1 && // Valeurs bonnes
                                             tailleGrillePartie <= 20 && nbJoueursPartie <= 6) //
                                     {
-                                        cout << "tout est bon" << endl;
-                                        std::thread t1(GameThread, playerCreator, (playerCreator + nbJoueursPartie),
-                                                       tailleGrillePartie, nbJoueursPartie, scoreMinimal);
-                                        t1.detach();
+                                        cout << "tout est bon, debut : "<<playerCreator << endl;
+
+                                        Threads.push_back(new std::thread(GameThread, playerCreator, (playerCreator + nbJoueursPartie),
+                                                                          tailleGrillePartie, nbJoueursPartie, scoreMinimal));
+                                        Threads[Threads.size()-1]->detach();
                                     }
                                     else
                                     {
@@ -135,13 +143,12 @@ int main()
                         }
                         else // déconnexion du joueur i
                         {
-                            cout << "DECONNEXION" << endl;
-                            cout << pseudos[i] << " est parti" << endl;
+                            cout << "DECONNEXION HORS THREAD" << endl;
                             if (i == playerCreator)
                                 playerCreator = -1;
                             selector.remove(*clients[i]);
-                            clients.erase(clients.begin() + i);
-                            pseudos.erase(pseudos.begin() + i);
+                            clients.erase(clients.begin()+i);
+                            pseudos.erase(pseudos.begin()+i);
                             i--;
                             cout << "Nombre de clients: " << clients.size() << endl;
                         }
@@ -156,6 +163,7 @@ int main()
 
 boolean addingPseudo(string pseudo, int code)
 {
+
     boolean pseudoAdded = false;
 
     if (code == 0) //si l'envoi est bon
@@ -176,145 +184,378 @@ boolean addingPseudo(string pseudo, int code)
     return pseudoAdded;
 }
 
-void GameThread(int debut, int fin, int tailleGrillePartie, int nbJoueurs, int scoreMinimal)
+bool GameThread(int debut, int fin, int tailleGrillePartie, int nbJoueurs, int scoreMinimal)
 {
-    sf::Packet data;
 
-    if (nbJoueurs > pseudos.size() - playerCreator)
+    try
     {
-        data << 0;
-        if (clients[debut]->send(data) != sf::Socket::Done)
-            cout << "ERREUR : echec d'envoi du code" << endl;
-        data.clear();
-    }
+        sf::Packet data;
 
-    while (nbJoueurs > pseudos.size() - playerCreator || pseudos.size() == 0)
-    {
-    }
-
-    for (int i = debut; i < fin; i++)
-    {
-        selector.remove(*clients[i]);
-
-        if (pseudos.size() != 0)
+        if (nbJoueurs > pseudos.size() - playerCreator)
         {
-
-            data << 5;
-
-            if (clients[i]->send(data) != sf::Socket::Done)
+            data << 0;
+            if (clients[debut]->send(data) != sf::Socket::Done)
                 cout << "ERREUR : echec d'envoi du code" << endl;
             data.clear();
+        }
 
-            data << tailleGrillePartie;
+        while (nbJoueurs > pseudos.size() - playerCreator || pseudos.size() == 0)
+        {
+        }
+
+        cout << "j'ai assez de joueurs" << endl;
+        for (int i = debut; i < fin; i++)
+        {
+            //selector.remove(*clients[i]);
+
+            if (pseudos.size() != 0)
+            {
+
+                data << 5;
+
+                if (clients[i]->send(data) != sf::Socket::Done)
+                    cout << "ERREUR : echec d'envoi du code" << endl;
+                data.clear();
+
+                data << tailleGrillePartie;
+                if (clients[i]->send(data) != sf::Socket::Done)
+                    cout << "ERREUR : echec d'envoi du code" << endl;
+                data.clear();
+            }
+        }
+        if (playerCreator + nbJoueurs < pseudos.size() && pseudos.size() != 0)
+        {
+            playerCreator = (playerCreator + nbJoueurs);
+            cout << "the first is " << playerCreator << endl;
+            data << 101;
+
+            if (clients[playerCreator]->send(data) != sf::Socket::Done)
+                cout << "ERREUR : echec d'envoi du code" << endl;
+            data.clear();
+        }
+        else
+        {
+            playerCreator = -1;
+        }
+
+        /**
+        * CODE DU JEUUUU
+        **/
+
+        vector<int> grille;
+        for (int i = 0; i < tailleGrillePartie * tailleGrillePartie; i++)
+        {
+            grille.push_back(-1);
+        }
+        for (int i = debut; i < fin; i++)
+        {
+
+            data << 7 << tailleGrillePartie;
             if (clients[i]->send(data) != sf::Socket::Done)
                 cout << "ERREUR : echec d'envoi du code" << endl;
             data.clear();
         }
+        for (int i = debut; i < fin; i++)
+        {
+            for (int j = debut; j < fin; j++)
+            {
+                data << 0 << j << pseudos[j];
+                if (clients[i]->send(data) != sf::Socket::Done)
+                    cout << "ERREUR : echec d'envoi du code" << endl;
+                data.clear();
+            }
+        }
+        for (int i = debut; i < fin; i++)
+        {
+
+            data << 8;
+            if (clients[i]->send(data) != sf::Socket::Done)
+                cout << "ERREUR : echec d'envoi du code" << endl;
+            data.clear();
+        }
+
+        bool partiefinie = false;
+
+        sf::Packet data2;
+        int posX=0, posY=0, code=0;
+        int tour = 0;
+        while (!partiefinie)
+        {
+
+            for (int i = debut; i < fin; i++)
+            {
+                cout << "jenvoie 8 puis " << tour%(nbJoueurs)+debut << endl;
+                data << 8 << tour%(nbJoueurs)+debut;
+
+                if (clients[i]->send(data) != sf::Socket::Done)
+                    cout << "ERREUR : echec d'envoi du code" << endl;
+                data.clear();
+            }
+
+            bool positionGood = false;
+
+            while(!positionGood)
+            {
+
+                data2.clear();
+
+                sf::Socket::Status test = clients[tour%(nbJoueurs)+debut]->receive(data2);
+                if (test == sf::Socket::Done)
+                {
+                    cout << "position reçue de " << tour%(nbJoueurs)+debut << endl;
+                    data2 >> posX >> posY;
+                    data2.clear();
+
+                    if(grille[posX + tailleGrillePartie * posY]== -1 )
+                    {
+
+                        grille[posX + tailleGrillePartie * posY] = tour%(nbJoueurs)+debut;
+
+                        for (int i = debut; i < fin; i++)
+                        {
+                            data << 11 << posX << posY;
+
+                            if (clients[i]->send(data) != sf::Socket::Done)
+                                cout << "ERREUR : echec d'envoi du code" << endl;
+                            data.clear();
+                        }
+
+                        cout << "bonne position" << endl;
+
+
+                        bool hWin = horizontalWin(grille,posX, posY, tour%(nbJoueurs)+debut, tailleGrillePartie, scoreMinimal);
+
+                        bool vWin = verticalWin(grille,posX, posY, tour%(nbJoueurs)+debut, tailleGrillePartie, scoreMinimal);
+
+                        bool dWin = diagWin(grille,posX, posY, tour%(nbJoueurs)+debut, tailleGrillePartie, scoreMinimal);
+                        bool dWin2 = diagWin2(grille,posX, posY, tour%(nbJoueurs)+debut, tailleGrillePartie, scoreMinimal);
+
+
+                        if(hWin || vWin || dWin || dWin2)
+                        {
+                            cout << "coup gagnant de la part de " << tour%(nbJoueurs)+debut << endl;
+                            partiefinie = true;
+                        }
+                        tour++;
+
+                        positionGood = true;
+
+                    }
+                    else
+                    {
+
+                        data << 10 << posX << posY;
+                        if (clients[tour%(nbJoueurs)+debut]->send(data) != sf::Socket::Done)
+                            cout << "ERREUR : echec d'envoi du code" << endl;
+                        data.clear();
+
+                    }
+                }
+                else if (test == sf::Socket::Disconnected)
+                {
+                    cout << "DECONNEXION INSIDE THREAD" << endl;
+                    for (int i = debut; i < fin; i++)
+                    {
+                        selector.remove(*clients[i]);
+                    }
+                    return false;
+                }
+            }
+        }
+        cout << "BRAVOOOO" << endl;
+        return true;
     }
-    if (playerCreator + nbJoueurs < pseudos.size() && pseudos.size() != 0)
+    catch ( const std::bad_alloc & )
     {
-        playerCreator = (playerCreator + nbJoueurs);
-        data << 101;
-        if (clients[playerCreator]->send(data) != sf::Socket::Done)
-            cout << "ERREUR : echec d'envoi du code" << endl;
-        data.clear();
+        std::cerr << "Erreur : mémoire insuffisante.\n";
+    }
+    catch ( const std::out_of_range & )
+    {
+        std::cerr << "Erreur : débordement de mémoire.\n";
+    }
+}
+
+//CHECK HORIZONTAL:
+bool horizontalWin(std::vector<int> grille, int x, int y, int id, int tailleGrillePartie, int scoreMinimum)
+{
+
+    int valueID = 0;
+
+    for (int i = 0; i < tailleGrillePartie; i++)
+    {
+        //cout << "idgrille[i+tailleGrillePartie*y] " << grille[i+tailleGrillePartie*y]<< endl;
+        if (grille[i+tailleGrillePartie*y]==id)
+        {
+
+            valueID++;
+            if(valueID == scoreMinimum)
+            {
+                cout << "horizontal" << endl;
+                return true;
+            }
+        }
+        else
+        {
+            valueID = 0;
+        }
+    }
+    return false;
+}
+
+bool verticalWin(std::vector<int> grille, int x, int y, int id, int tailleGrillePartie, int scoreMinimum)
+{
+
+    int valueID = 0;
+
+    for (int i = 0; i < tailleGrillePartie; i++)
+    {
+        //cout << "value " << valueID<< endl;
+        if (grille[x+tailleGrillePartie*i]==id)
+        {
+            valueID++;
+
+
+        }
+        else
+        {
+            valueID = 0;
+        }
+        if(valueID == scoreMinimum)
+        {
+            cout << "vertical" << endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool diagWin(std::vector<int> grille, int x, int y, int id, int tailleGrillePartie, int scoreMinimum)
+{
+
+    int copyX = x;
+    int copyY = y;
+    int valueID = 0;
+
+
+    while(copyX > 0 && copyY > 0)
+    {
+        copyX--;
+        copyY--;
+    }
+
+    while(copyX != tailleGrillePartie && copyY != tailleGrillePartie)
+    {
+        if (grille[copyX+tailleGrillePartie*copyY]==id)
+        {
+            valueID++;
+
+            if(valueID == scoreMinimum)
+            {
+                cout << "diagLR" << endl;
+                return true;
+            }
+        }
+        else
+        {
+            valueID = 0;
+        }
+        copyX++;
+        copyY++;
+    }
+
+    return false;
+}
+
+bool diagWin2(std::vector<int> grille, int x, int y, int id, int tailleGrillePartie, int scoreMinimum)
+{
+
+    int valueID = 0;
+    int indexGrid = x+tailleGrillePartie*y;
+
+    cout << "init: " <<indexGrid << endl;
+    while(indexGrid > tailleGrillePartie)
+    {
+
+        indexGrid = indexGrid - (tailleGrillePartie -1);
+        //cout << "remonte: " << indexGrid << endl;
+    }
+
+    do
+    {
+
+        if (grille[indexGrid]==id)
+        {
+            valueID++;
+
+            if(valueID == scoreMinimum)
+            {
+                cout << "diagRL" << endl;
+                return true;
+            }
+        }
+        else
+        {
+            valueID = 0;
+        }
+        //cout << "descend: " << indexGrid << endl;
+        indexGrid = indexGrid + tailleGrillePartie-1;
+    }
+    while(indexGrid < (tailleGrillePartie*tailleGrillePartie-tailleGrillePartie) && indexGrid%tailleGrillePartie != 0);
+
+    if (grille[indexGrid]==id)
+    {
+        valueID++;
+
+        if(valueID == scoreMinimum)
+        {
+            cout << "diagRL" << endl;
+            return true;
+        }
     }
     else
     {
-        playerCreator = -1;
+        valueID = 0;
+    }
+    //cout << "descend: " << indexGrid << endl;
+
+    return false;
+
+    /*
+    int copyX = x;
+    int copyY = y;
+    int valueID = 0;
+
+    while(copyX < tailleGrillePartie-1 && copyY > 0)
+    {
+        copyX++;
+        copyY--;
     }
 
-    /**
-    * CODE DU JEUUUU
-    **/
-
-    vector<int> grille;
-    for (int i = 0; i < tailleGrillePartie * tailleGrillePartie; i++)
+    while(copyX != 0 && copyY != tailleGrillePartie)
     {
-        grille.push_back(-1);
-    }
-    for (int i = debut; i < fin; i++)
-    {
-        data << 7 << tailleGrillePartie;
-        if (clients[i]->send(data) != sf::Socket::Done)
-            cout << "ERREUR : echec d'envoi du code" << endl;
-        data.clear();
-    }
-    for (int i = debut; i < fin; i++)
-    {
-        for (int j = debut; j < fin; j++)
+        if (grille[copyX+tailleGrillePartie*copyY]==id)
         {
-            data << 0 << j << pseudos[j];
-            if (clients[i]->send(data) != sf::Socket::Done)
-                cout << "ERREUR : echec d'envoi du code" << endl;
-            data.clear();
-        }
-    }
-    for (int i = debut; i < fin; i++)
-    {
-        data << 8;
-        if (clients[i]->send(data) != sf::Socket::Done)
-            cout << "ERREUR : echec d'envoi du code" << endl;
-        data.clear();
-    }
+            valueID++;
 
-    bool partiefinie = false;
-    sf::Packet data2;
-    int posX=0, posY=0, code=0;
-    int tour = debut;
-
-    while (!partiefinie)
-    {
-
-        for (int i = debut; i < fin; i++)
-        {
-            data << 8 << tour%(debut+nbJoueurs);
-
-            if (clients[i]->send(data) != sf::Socket::Done)
-                cout << "ERREUR : echec d'envoi du code" << endl;
-            data.clear();
-        }
-
-
-        bool positionGood = false;
-        while(!positionGood)
-        {
-            data2.clear();
-            if (clients[tour%(debut+nbJoueurs)]->receive(data2) == sf::Socket::Done)
+            if(valueID == scoreMinimum)
             {
-                data2 >> posX >> posY;
-                data2.clear();
-                code = 0;
-
-                if(grille[posX + tailleGrillePartie * posY]== -1 )
-                {
-                    grille[posX + tailleGrillePartie * posY] = tour%(debut+nbJoueurs);
-
-                    for (int i = debut; i < fin; i++)
-                    {
-                        data << 11 << posX << posY;
-
-                        if (clients[i]->send(data) != sf::Socket::Done)
-                            cout << "ERREUR : echec d'envoi du code" << endl;
-                        data.clear();
-                    }
-
-                    tour++;
-                    positionGood = true;
-
-                }
-                else
-                {
-                    data << 10 << posX << posY;
-                    if (clients[tour%(debut+nbJoueurs)]->send(data) != sf::Socket::Done)
-                        cout << "ERREUR : echec d'envoi du code" << endl;
-                    data.clear();
-                }
-            }
-            else
-            {
-
+                cout << "diagRL" << endl;
+                return true;
             }
         }
+        else
+        {
+            valueID = 0;
+        }
+        copyX--;
+        copyY++;
     }
+
+
+    return false;
+
+    */
+
+
+
 }
