@@ -22,7 +22,7 @@ void Game::create()
 
     m_phase = 1;
 
-    Player p1("Joueur 1", 0);
+    /*Player p1("Joueur 1", 0);
     m_player.push_back(p1);
     Player p2("Joueur 2", 1);
     m_player.push_back(p2);
@@ -33,13 +33,14 @@ void Game::create()
     Player p5("Joueur 5", 4);
     m_player.push_back(p5);
     Player p6("Joueur 6", 5);
-    m_player.push_back(p6);
+    m_player.push_back(p6);*/
 
-    m_inGameWindow.create(m_player);
+
 
     //std::cin >> m_phase;
 
     gameCreated = false;
+    playerTurn = 0;
 }
 
 void Game::event(sf::Event& event)
@@ -62,7 +63,13 @@ void Game::event(sf::Event& event)
                 localPosition.x >= 0 && localPosition.x <= 768
                 && localPosition.y >=  0 && localPosition.y <= 768)
             {
-                std::cout << localPosition.x/m_board.getSizeCase() << "  " <<localPosition.y/m_board.getSizeCase() << std::endl;
+                posX = localPosition.x/m_board.getSizeCase();
+                posY = localPosition.y/m_board.getSizeCase();
+
+                if(idClient == playerTurn%m_player.size() && network.sendPositionClick(posX, posY)==false)
+                {
+                    std::cout << "error send position" << std::endl;
+                }
             }
         }
     }
@@ -96,16 +103,21 @@ void Game::step()
     {
         if(m_gameCreateWindows.isClicked())
         {
-            network.setBlocking(true);
             if(network.sendCreateGame(m_gameCreateWindows.getNbPlayer(), m_gameCreateWindows.getSizeGrid(), m_gameCreateWindows.getScoreMin()))
             {
-                if(network.receiveErrorCreate()==1)
+                network.setBlocking(true);
+                int error = network.receiveCode();
+                if(error == 0)
+                {
+                    m_phase = 3;
+                }
+                else if(error == 1)
                 {
                     std::cout << "Error dans les champs" << std::endl;
                 }
                 else
                 {
-                    m_phase = 3;
+                    std::cout << "Error" << std::endl;
                 }
 
             }
@@ -137,14 +149,65 @@ void Game::step()
     }
     if(m_phase == 4)
     {
-        //network.setBlocking(true);
-        int size = network.receiveSize();
-        if(size>0 && gameCreated == false)
+
+
+        if(/*size>0 && */gameCreated == false)
         {
+            network.setBlocking(true);
+            int size = network.receiveSize();
+            network.setBlocking(false);
             m_board.create(size);
+
+            for(int i=0; i<size*size; i++)
+                m_tab.push_back(0);
+
+
+            int id;
+            std::string pseudo;
+            int code2;
+            int ii=1;
+            do
+            {
+                network.setBlocking(true);
+                code = network.receivePlayerName(id, pseudo);
+                std::cout << "id : " << ii << "     pseudo : " << pseudo << std::endl;
+                if(pseudo != "")
+                {
+                    Player p1(pseudo, ii);
+                    m_player.push_back(p1);
+
+                    if(pseudo == m_loginWindow.getPseudo())
+                    {
+                        idClient = ii-1;
+                    }
+                    ii++;
+                }
+            }
+            while(code !=8);
+
+
+            network.setBlocking(false);
+            m_inGameWindow.create(m_player);
+            code = 0;
+
             gameCreated = true;
         }
 
+
+        network.setBlocking(false);
+        code = network.receivePosition(posX, posY);
+        if(code == 11)
+        {
+            m_board.setColor(posX, posY, m_player[playerTurn%m_player.size()].getColor());
+            playerTurn++;
+            code = 0;
+            m_inGameWindow.setCurrentPlayer(playerTurn%m_player.size());
+        }
+        else
+        {
+            posX = 0;
+            posY = 0;
+        }
 
         m_board.step();
         m_inGameWindow.step();

@@ -1,8 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#include <time.h>
 
 int main()
 {
+    srand(time(NULL));
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Morpio", sf::Style::Close, settings);

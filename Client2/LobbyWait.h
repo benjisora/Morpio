@@ -2,6 +2,7 @@
 #define LOBBYWAIT_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <random>
 #define SMOOTHSTEP(x) ((x) * (x) * (3 - 2 * (x)))
 
 
@@ -21,10 +22,15 @@ class LobbyWait
         sf::Texture tex1;
         sf::Sprite spr2;
         sf::Texture tex2;
-        float a;
-        float v, X;
+        float a, v, X;
+        float a2, v2, X2;
         bool sens;
-
+        sf::Font font;
+        sf::Text boxText;
+        bool fadIn;
+        int alpha;
+        int previousMessage;
+        std::vector<std::string> text;
 };
 
 #endif // LOBBYWAIT_H

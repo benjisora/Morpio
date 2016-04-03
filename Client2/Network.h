@@ -17,7 +17,9 @@ class Network
         int receiveCode();
         int receiveSize();
         int receiveErrorCreate();
-        std::vector<std::string> receivePlayerName();
+        int receivePlayerName(int& id, std::string& pseudo);
+        int receivePlayerTurn(int& idPlayerTurn);
+        int receivePosition(int& posX, int& posY);
 
         void setBlocking(bool block);
 

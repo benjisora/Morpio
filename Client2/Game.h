@@ -36,6 +36,11 @@ class Game
     sf::Vector2i localPosition;
     int code;
     bool gameCreated;
+    int firstId;
+    int playerTurn;
+    int posX, posY;
+    std::string pseudoClient;
+    int idClient;
 };
 
 #endif // GAME_H

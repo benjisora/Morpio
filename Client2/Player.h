@@ -11,6 +11,7 @@ class Player
         virtual ~Player();
         std::string getPseudo();
         int getId();
+        void setId(int id);
         sf::Color getColor();
 
     protected:
