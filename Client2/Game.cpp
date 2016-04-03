@@ -20,7 +20,7 @@ void Game::create()
 
     wait.create();
 
-    m_phase = 3;
+    m_phase = 1;
 
     /*Player p1("Joueur 1", 0);
     m_player.push_back(p1);
