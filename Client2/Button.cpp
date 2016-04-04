@@ -21,6 +21,7 @@ void Button::create(sf::Vector2f position, sf::Vector2f size, std::string label)
     m_boxText.setCharacterSize(22.5);
     m_boxText.setColor(sf::Color(255,255,255,255));
     m_boxText.setString(label);
+    //m_boxText.setOrigin(m_boxText.getLocalBounds().width/2, m_boxText.getLocalBounds().height/2);
     m_boxText.setPosition(position.x+m_boxText.getGlobalBounds().width/2.5, position.y+m_boxText.getGlobalBounds().height/2);
 
     m_rect1.setPosition(position.x, position.y);

@@ -59,6 +59,8 @@
 		<Unit filename="Network.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
+		<Unit filename="ResultWindow.cpp" />
+		<Unit filename="ResultWindow.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

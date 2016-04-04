@@ -42,7 +42,7 @@ void LoginWindow::create()
     input1.create(sf::Vector2f(800,100), "Adresse");
     input1.setTrickness(0);
     input1.setMaxLength(15);
-    input1.setText("25.118.223.252");
+    input1.setText("172.31.247.41");
 
     input2.create(sf::Vector2f(800,150), "Port");
     input2.setTrickness(0);

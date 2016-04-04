@@ -17,6 +17,7 @@ void Game::create()
 
     m_loginWindow.create();
     m_gameCreateWindows.create();
+    m_resultWindow.create();
 
     wait.create();
 
@@ -50,8 +51,8 @@ void Game::event(sf::Event& event)
         if (event.type == sf::Event::MouseButtonReleased)
         {
             if (event.key.code == sf::Mouse::Left &&
-                localPosition.x >= 0 && localPosition.x <= 768
-                && localPosition.y >=  0 && localPosition.y <= 768)
+                    localPosition.x >= 0 && localPosition.x <= 768
+                    && localPosition.y >=  0 && localPosition.y <= 768)
             {
                 posX = localPosition.x/m_board.getSizeCase();
                 posY = localPosition.y/m_board.getSizeCase();
@@ -62,6 +63,10 @@ void Game::event(sf::Event& event)
                 }
             }
         }
+    }
+    if(m_phase == 5)
+    {
+        m_resultWindow.event(event);
     }
 }
 
@@ -139,11 +144,12 @@ void Game::step()
     }
     if(m_phase == 4)
     {
-
+        m_resultWindow.setTextToast("");
         int id;
         int code2, code3;
-        if(/*size>0 && */gameCreated == false)
+        if(gameCreated == false)
         {
+            playerTurn = 0;
             network.setBlocking(true);
             int size = network.receiveSize();
             network.setBlocking(false);
@@ -188,7 +194,6 @@ void Game::step()
         network.setBlocking(false);
         code = network.receivePosition(posX, posY);
         code2 = network.receiveWinner(id);
-        //code3 = network.receiveCode();
         if(code == 11)
         {
             m_board.setColor(posX, posY, m_player[playerTurn%m_player.size()].getColor());
@@ -210,13 +215,44 @@ void Game::step()
 
         if(code2==13)
         {
-            std::cout << "WINNER IS " << m_player[id+m_player[0].getId()-1].getPseudo() << std::endl;
+            m_resultWindow.setText("GAGNANT : " + m_player[id+m_player[0].getId()-1].getPseudo());
+            m_phase = 5;
+            code2=0;
+        }
+        else if(code2==15)
+        {
+            m_resultWindow.setText("EGALITE");
+            m_phase = 5;
             code2=0;
         }
 
 
+
         m_board.step();
         m_inGameWindow.step();
+    }
+
+    if(m_phase == 5)
+    {
+        if(m_resultWindow.isClickedRetry())
+        {
+            network.sendCode(17);
+        }
+
+        code = network.receiveCode();
+        if(code==18)
+        {
+            m_resultWindow.setTextToast("Des clients veulent rejouer");
+        }
+        else if(code==16)
+        {
+            m_phase = 4;
+            gameCreated = false;
+            m_player.clear();
+
+        }
+
+        m_resultWindow.step();
     }
 }
 
@@ -244,5 +280,9 @@ void Game::draw(sf::RenderWindow& window)
     {
         m_board.draw(window);
         m_inGameWindow.draw(window);
+    }
+    if(m_phase == 5)
+    {
+        m_resultWindow.draw(window);
     }
 }

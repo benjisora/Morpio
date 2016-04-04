@@ -10,6 +10,7 @@
 #include "GameCreateWindow.h"
 #include "LobbyWait.h"
 #include "InGameWindow.h"
+#include "ResultWindow.h"
 
 class Game
 {
@@ -32,6 +33,7 @@ class Game
     Network network;
     LobbyWait wait;
     InGameWindow m_inGameWindow;
+    ResultWindow m_resultWindow;
     int m_phase;
     sf::Vector2i localPosition;
     int code;

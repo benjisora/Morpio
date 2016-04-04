@@ -46,25 +46,28 @@ void LobbyWait::create()
     boxText.setPosition(1024/2,600);
 
     text.push_back("Rotation du chargement");
-    text.push_back("Ajout de booster");
-    text.push_back("Recherche du dernier post 9gag");
+    text.push_back("Ajout de reacteurs");
+    text.push_back("Lecture du dernier post 9Gag");
     text.push_back("Analyse du tobydélice");
     text.push_back("Application des couleurs quantiques");
     text.push_back("Démêlage de la mémoire vive");
     text.push_back("Etirement du processeur");
     text.push_back("Extraction des données personelles");
-    text.push_back("Creusage du fromage");
-    text.push_back("Recherche du majora's mask");
+    text.push_back("Acquisition d'Excalibur");
+    text.push_back("Envoi du signal a Batman");
+    text.push_back("Allumage de la machine a Internet");
+    text.push_back("Découverte du Saint Graal");
+    text.push_back("Recherche de benji pour qu'il lance le serveur");
     text.push_back("Alignement de la grille frequentielle");
     text.push_back("Accordage des instruments de mesure");
-    text.push_back("Lecture des citations usb");
+    text.push_back("Lecture des citations USB");
     text.push_back("Polissage du gravier");
     text.push_back("Diagnostique du bug entre l'écran et la chaise");
     text.push_back("Nettoyage de l'accordéon");
-    text.push_back("Standardisation les boules de Goo");
+    text.push_back("Standardisation des boules de Goo");
     text.push_back("Génération du MVC séquentiel");
     text.push_back("Estimation du temps d'attente");
-
+    text.push_back("Lustrage de la moustache d'Hercule Poirot");
 }
 
 void LobbyWait::step()

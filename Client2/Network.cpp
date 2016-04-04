@@ -100,9 +100,10 @@ int Network::receiveCode()
 int Network::receiveSize()
 {
     int size = -1;
+    int code;
     if (m_socket.receive(m_data) == sf::Socket::Done)
     {
-         m_data >> size;
+        m_data >> size;
         std::cout << "size -> " << size << std::endl;
     }
     m_data.clear();
